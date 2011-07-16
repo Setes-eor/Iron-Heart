@@ -4,6 +4,9 @@
  */
 package iron.heart;
 
+import iron.heart.Button;
+import iron.heart.ButtonpNum;
+import iron.heart.Entity;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,6 +61,12 @@ public abstract class Menu extends Entity{
         lb_buttons.add(button);   
     }// setButton
     
+    // delete a button
+    //
+    protected void deleteButton(int id){
+        lb_buttons.remove(id);
+    }// deleteButton
+    
     // set the buttons with num of the menu
     //
     protected void addButtonpNum(String ref, int x, int y, String data, String path,
@@ -76,6 +85,10 @@ public abstract class Menu extends Entity{
         
         bn_buttons.add(button);   
     }// setButton
+    
+    // do something by mouseclick
+    //
+    public abstract void mouseClicked(int x, int y);
     
     // return the buttonID by clicked on the button
     //
@@ -115,7 +128,7 @@ public abstract class Menu extends Entity{
     
     // draw the buttons
     //
-    private void drawButtons(Graphics g){
+    protected void drawButtons(Graphics g){
         if(b_visible)
             for (int i = 0; i < lb_buttons.size(); i++) {
                 lb_buttons.get(i).Draw(g);

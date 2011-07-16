@@ -13,6 +13,8 @@ import java.awt.event.MouseMotionAdapter;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferStrategy;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /*
  * show the game-field and do the game (game-loop)
@@ -32,14 +34,23 @@ public class GameCavs extends Canvas implements Runnable, KeyListener, MouseMoti
     int i_mouseX;
     int i_mouseY;
     long l_period = 10;
+    boolean b_mouseup;
    
     BufferStrategy bs_Buffer;
     Graphics g;
     Thread t;
     
+    public StartMenu sm_startmenu;
+    public NewGameMenu ng_newgame;
+    public LoadMenu lm_loadmenu;
+    public Credits cr_credits;
+    public Properties pr_properties;
+    public AICombatMenu cm_combatmenu;
+    
     BasicEntity be_map;
-    StartMenu sm_startmenu;
     String s_datapath = "data/";
+    String s_menupath = "menus/";
+    String s_menubackground = "backgrounds/mainmenu";
     String s_typ = ".png";
     HashMap<String,String> hm_stats;
     
@@ -49,9 +60,21 @@ public class GameCavs extends Canvas implements Runnable, KeyListener, MouseMoti
         i_widthScreen = x;
         i_heightScreen = y;
         
-        sm_startmenu = new StartMenu("backgrounds/mainmenu", s_datapath + "menus/", s_typ,
-                i_widthScreen, i_heightScreen);
-               
+        b_mouseup = true;
+        
+        sm_startmenu = new StartMenu(s_menubackground, s_datapath + s_menupath, s_typ,
+                i_widthScreen, i_heightScreen, this);
+        ng_newgame = new NewGameMenu(s_menubackground, s_datapath + s_menupath, s_typ,
+                i_widthScreen, i_heightScreen, this);
+        lm_loadmenu = new LoadMenu(s_menubackground, s_datapath + s_menupath, s_typ,
+                i_widthScreen, i_heightScreen, this);
+        pr_properties = new Properties(s_menubackground, s_datapath + s_menupath, s_typ,
+                i_widthScreen, i_heightScreen, this);
+        cr_credits = new Credits(s_menubackground, s_datapath + s_menupath, s_typ,
+                i_widthScreen, i_heightScreen, this);
+        cm_combatmenu = new AICombatMenu(s_menubackground, s_datapath + s_menupath, s_typ,
+                i_widthScreen, i_heightScreen, this);
+        
         this.setIgnoreRepaint(true);
         this.setBounds(0, 0, i_widthScreen, i_heightScreen);
         this.setBackground(Color.GRAY);
@@ -130,9 +153,14 @@ public class GameCavs extends Canvas implements Runnable, KeyListener, MouseMoti
         g.fillRect(0, 0, i_widthScreen, i_heightScreen);
         
         // Paint stuff
-        if(hm_stats.get("Start") == "active")
+        if(hm_stats.get("Start") == "active"){
             sm_startmenu.Draw(g);
-        
+            ng_newgame.Draw(g);
+            lm_loadmenu.Draw(g);
+            pr_properties.Draw(g);
+            cr_credits.Draw(g);
+            cm_combatmenu.Draw(g);
+        }// if  
         // show the mousepositions
         // System.out.println("mousepositions: " + i_mouseX + " " + i_mouseY);
     }// Render
@@ -157,9 +185,23 @@ public class GameCavs extends Canvas implements Runnable, KeyListener, MouseMoti
     // do something when the mousekey is pressed
     //
     public void mouseClicked1(MouseEvent e){
-        System.out.println("mouse" + " " + e.getButton());
-       
-       
+        if(b_mouseup){
+            System.out.println("mouse" + " " + e.getButton());
+            if (hm_stats.get("Start") == "active") {
+                if (e.getButton() == MouseEvent.BUTTON1) {
+                    sm_startmenu.mouseClicked(i_mouseX, i_mouseY);
+                    ng_newgame.mouseClicked(i_mouseX, i_mouseY);
+                    lm_loadmenu.mouseClicked(i_mouseX, i_mouseY);
+                    pr_properties.mouseClicked(i_mouseX, i_mouseY);
+                    cr_credits.mouseClicked(i_mouseX, i_mouseY, 2);
+                    cm_combatmenu.mouseClicked(i_mouseX, i_mouseY);
+                }// if
+                else if (e.getButton() == MouseEvent.BUTTON3) {
+                    cr_credits.mouseClicked(i_mouseX, i_mouseY, 1);
+                }// if
+            }// if
+            b_mouseup = false;
+        }// if
     }// mouseClicked1
     
     // scroll over the map by mousemovement
