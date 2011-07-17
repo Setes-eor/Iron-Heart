@@ -123,7 +123,7 @@ public class GameCavs extends Canvas implements Runnable, KeyListener, MouseMoti
     // init the game
     //
     public void initGame(String mappath) throws IOException{
-        g_game = new Game();
+        g_game = new Game(s_datapath, s_typ);
         g_game.loadMap(s_userpath + mappath);
     }// initGame
     
@@ -174,6 +174,10 @@ public class GameCavs extends Canvas implements Runnable, KeyListener, MouseMoti
             cr_credits.Draw(g);
             cm_combatmenu.Draw(g);
         }// if  
+        else if(hm_stats.get("Game") == "active"){
+            g_game.Draw(g);
+        }
+        
         // show the mousepositions
         // System.out.println("mousepositions: " + i_mouseX + " " + i_mouseY);
     }// Render

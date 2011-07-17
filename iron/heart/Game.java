@@ -4,6 +4,7 @@
  */
 package iron.heart;
 
+import java.awt.Graphics;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
@@ -22,18 +23,25 @@ public class Game {
     //
     Field fi_field;
     String[] s_terraintyp = {"none","grass","earth","rock","water"};
+    String s_datapath;
+    String s_typ;
     
     // constructor
     //
-    public Game(){
-        
+    public Game(String data, String typ){
+        s_datapath = data;
+        s_typ = typ;
     }// constructor
+    
+    // draw all things of the game
+    //
+    public void Draw(Graphics g){
+        fi_field.Draw(g);
+    }// Draw
     
     // load a map or a savegame
     //
     public void loadMap(String mappath) throws IOException{
-       
-    
         BufferedReader maploader = new BufferedReader(new FileReader(mappath));
         
         // first load the gamefield
@@ -69,10 +77,10 @@ public class Game {
             }// for
         }// for 
         maploader.close();
+        fi_field.initTerrain(s_datapath, s_typ);
         
         //fi_field.printTerrain();
     }// loadMap
-    
     
     // save the gamestate
     //
