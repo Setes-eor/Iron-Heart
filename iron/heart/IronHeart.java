@@ -12,6 +12,8 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import javax.swing.JFrame;
+
+
 /**
  *
  * @author setes
@@ -38,7 +40,7 @@ public class IronHeart {
 
         // init the game JFrame
         //
-        JFrame frame = new JFrame("Spiel");
+        JFrame frame = new JFrame("Iron Heart");
 
         frame.setIgnoreRepaint(true);
         frame.setBounds(0, 0, width, height);

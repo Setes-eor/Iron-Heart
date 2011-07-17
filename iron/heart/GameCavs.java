@@ -123,7 +123,7 @@ public class GameCavs extends Canvas implements Runnable, KeyListener, MouseMoti
     // init the game
     //
     public void initGame(String mappath) throws IOException{
-        g_game = new Game(s_datapath, s_typ);
+        g_game = new Game(s_datapath, s_typ,i_widthScreen,i_heightScreen);
         g_game.loadMap(s_userpath + mappath);
     }// initGame
     
@@ -153,8 +153,7 @@ public class GameCavs extends Canvas implements Runnable, KeyListener, MouseMoti
     //
     public void Update(){
         if((hm_stats.get("Game")) == "active"){
-            
-            
+            g_game.move(1000);  
         }// move
     }// Update
     
@@ -259,75 +258,58 @@ public class GameCavs extends Canvas implements Runnable, KeyListener, MouseMoti
     // do all the thinks, when a key is pressed
     //
     public void keyPressed(KeyEvent e){
+        if((hm_stats.get("Game")) == "active"){
+            if(e.getKeyCode() == KeyEvent.VK_G)
+                g_game.keyPressed("g");
+            if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+                g_game.setHorizontalMove(15);
+            }
+            if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+                g_game.setHorizontalMove(-15);
+            }
+            if (e.getKeyCode() == KeyEvent.VK_UP) {
+                g_game.setVerticalMove(15);
+            }
+            if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+                g_game.setVerticalMove(-15);
+            }
+            if (e.getKeyCode() == KeyEvent.VK_B) {
+            }// if
+            if (e.getKeyCode() == KeyEvent.VK_L) {
+            }// if
+            if (e.getKeyCode() == KeyEvent.VK_O) {
+                setStateActive("Option");
+            }// if
+        }// if
        /* if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
             if((hm_stats.get("Start")) == "active")
                   
             if((hm_stats.get("Option")) == "active")
                  
                 }*/
-            
-        
-        if((hm_stats.get("Game")) == "active"){
-            if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-               // moveHorizontal(15);
-            }
-            if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-                //moveHorizontal(-15);
-            }
-            if (e.getKeyCode() == KeyEvent.VK_UP ) {
-                //moveVertical(15);
-            }
-            if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-                //moveVertical(-15);
-            }
-            if (e.getKeyCode() == KeyEvent.VK_B) {
-                
-            }// if
-            if (e.getKeyCode() == KeyEvent.VK_L) {
-                
-            }// if
-            if (e.getKeyCode() == KeyEvent.VK_O) {
-                setStateActive("Option");
-            }// if
-        }// if
-        
     }// keyPressed
-      
-    /*public void moveHorizontal(int value){
-        be_map.setHorizontalMove(value);
-    }// moveUp
-    
-    public void moveVertical(int value){
-        be_map.setVerticalMove(value);
-        
-    }// moveDown
-    
-    public void resetHorizontal(){
-        be_map.setHorizontalMove(0);
-        
-    }// resetHorizontal
-    
-    public void resetVertical(){
-        be_map.setVerticalMove(0);
-        
-    }// resetVertical*/
-    
+
     // do all the thinks, when a key is released
     //
     public void keyReleased(KeyEvent e){
-        if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            //resetHorizontal();
-        }
-        if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            //resetHorizontal();
-        }
-        if(e.getKeyCode() == KeyEvent.VK_UP){
-            //resetVertical();
+        if ((hm_stats.get("Game")) == "active") {
+            if (e.getKeyCode() == KeyEvent.VK_G) {
+                g_game.keyPressed("g");
+            }
+            if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+                g_game.setHorizontalMove(0);
+            }
+            if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+                g_game.setHorizontalMove(0);
+            }
+            if (e.getKeyCode() == KeyEvent.VK_UP) {
+                g_game.setVerticalMove(0);
+            }
+            if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+                g_game.setVerticalMove(0);
+            }
         }// if
-        if(e.getKeyCode() == KeyEvent.VK_DOWN){
-            //resetVertical();
-        }// if     
-    }
+    }// keyReleased
 
     
     public void mouseDragged(MouseEvent me) {

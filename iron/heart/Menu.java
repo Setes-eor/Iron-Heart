@@ -25,7 +25,7 @@ public abstract class Menu extends Entity{
     protected List<ButtonpNum> bn_buttons;
     protected String s_typ;
     protected String s_datapath;
-    protected boolean b_visible;
+    
     
     // constructor
     //
@@ -149,10 +149,7 @@ public abstract class Menu extends Entity{
         
     }// drawButtonspNum
     
-    // set and get visible
-    //
-    public void setVisible(boolean vis){b_visible = vis;}
-    public boolean getVisible(){return b_visible;}
+    
     
     @Override
     public void collionWidth(Entity e) {

@@ -21,6 +21,7 @@ public abstract class Entity {
     protected double d_yPos;      // x position
     protected double d_Dx;
     protected double d_Dy;
+    protected boolean b_visible;
     
     protected int i_persID;  // personal id of a entity
     
@@ -35,6 +36,7 @@ public abstract class Entity {
         this.sp_sprite = ImageLoader.get().getSprite(ref);
         d_xPos = x;
         d_yPos = y;
+        b_visible = true;
     }// constructor
        
     // change the image of a Entity
@@ -49,6 +51,11 @@ public abstract class Entity {
     public void setYPos(double y){d_yPos = y;}
     public int getXPos(){return (int) d_xPos;}
     public int getYPos(){return (int) d_yPos;}
+    
+    // set and get visible
+    //
+    public void setVisible(boolean vis){b_visible = vis;}
+    public boolean getVisible(){return b_visible;}
     
     public void move(long delta){
         d_xPos += (delta * d_Dx) / 1000;
@@ -65,7 +72,9 @@ public abstract class Entity {
     
     // draw the image of the entity on the screen
     public void Draw(Graphics g){
-        sp_sprite.Draw(g,(int) d_xPos,(int) d_yPos);     
+        // muss noch angepasst werden, dass es auf alle Auflösungen passt!!!!!!!!!!!!!!!!1
+        if(d_xPos >= 0 && d_yPos >= 0 && d_xPos <= 1920 && d_yPos <= 1080 && b_visible)
+            sp_sprite.Draw(g,(int) d_xPos,(int) d_yPos);     
     }// Draw
        
     // collision with two entities

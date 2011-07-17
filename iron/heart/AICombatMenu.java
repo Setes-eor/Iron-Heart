@@ -4,6 +4,10 @@
  */
 package iron.heart;
 
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author setes
@@ -31,7 +35,11 @@ public class AICombatMenu extends Menu{
             int buttonid = super.buttonClicked(x, y);
 
             if(buttonid == 0){
-                gc_gamecavs.initGame("map/map1.map");
+                try {
+                    gc_gamecavs.initGame("map/map1.map");
+                } catch (IOException ex) {
+                    Logger.getLogger(AICombatMenu.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 gc_gamecavs.setStateActive("Game");
             }// if
             

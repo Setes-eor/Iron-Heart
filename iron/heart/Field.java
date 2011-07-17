@@ -5,6 +5,7 @@
 package iron.heart;
 
 import java.awt.Graphics;
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +22,7 @@ public class Field {
     List<BasicEntity> lbe_raster;
     int i_fieldWidth;
     int i_fieldHeigth;
+    boolean b_rastervisible;
     
     // default-constructor
     //
@@ -36,6 +38,7 @@ public class Field {
             }// for  
         lbe_terrain = new ArrayList<BasicEntity>();
         lbe_raster = new ArrayList<BasicEntity>();
+        b_rastervisible = true;
     }// default-constructor
     
     // constructor
@@ -46,6 +49,7 @@ public class Field {
         fe_field = new FieldElement[i_fieldHeigth][i_fieldWidth];
         lbe_terrain = new ArrayList<BasicEntity>();
         lbe_raster = new ArrayList<BasicEntity>();
+        b_rastervisible = true;
     }// constructor
     
     // init a fieldelement
@@ -83,6 +87,7 @@ public class Field {
                        typ, j * 64, i * 64);
                lbe_raster.add(raster);
             }// for  
+        changeRasterVisible();
     }// initTerrain
     
     // draw the terrain ...
@@ -94,10 +99,58 @@ public class Field {
         }// for 
     }// Draw
     
+    // change the visible of the raster
+    //
+    public void changeRasterVisible(){
+        if(b_rastervisible){
+            for(int i = 0; i < i_fieldHeigth * i_fieldWidth; i++){
+                b_rastervisible = false;
+                lbe_raster.get(i).setVisible(false);
+            }// for 
+        }// if
+        else {
+            for (int i = 0; i < i_fieldHeigth * i_fieldWidth; i++) {
+                b_rastervisible = true;
+                lbe_raster.get(i).setVisible(true);
+            }// for 
+        }// else   
+    }// changeRasterVisible
+    
+    // set horizontal and vertical move of the field, buildings, ...
+    //
+    public void setHorizontalMove(double dx){
+         for(int i = 0; i < i_fieldHeigth * i_fieldWidth; i++){
+            lbe_terrain.get(i).setHorizontalMove(dx);
+            if(b_rastervisible)
+                lbe_raster.get(i).setHorizontalMove(dx);
+         }// for
+    }// setHorizontalMove
+    
+    public void setVerticalMove(double dy){
+        for(int i = 0; i < i_fieldHeigth * i_fieldWidth; i++){
+            lbe_terrain.get(i).setVerticalMove(dy);
+            if(b_rastervisible)
+                lbe_raster.get(i).setVerticalMove(dy);
+        }// for
+    }// setVerticalMove
+    
+    // move all the thinks
+    //
+    public void move(long delta){
+        for(int i = 0; i < i_fieldHeigth * i_fieldWidth; i++){
+            lbe_terrain.get(i).move(delta);
+            if(b_rastervisible)
+                lbe_raster.get(i).move(delta);
+        }// for
+    }// move
+    
     // getter
     //
     public int getFieldWidth(){return i_fieldWidth;}
     public int getFieldHeigth(){return i_fieldHeigth;}
+    public Point getPosLeftUp(){return new Point(lbe_terrain.get(0).getXPos(),lbe_terrain.get(0).getYPos());}
+    public Point getPosRightDown(){return new Point(lbe_terrain.get(i_fieldWidth - 1).getXPos(),
+            lbe_terrain.get(i_fieldHeigth - 1).getYPos());}
     
     // print methods for debugging
     //

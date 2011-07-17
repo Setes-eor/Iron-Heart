@@ -5,6 +5,7 @@
 package iron.heart;
 
 import java.awt.Graphics;
+import java.awt.Point;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
@@ -25,12 +26,18 @@ public class Game {
     String[] s_terraintyp = {"none","grass","earth","rock","water"};
     String s_datapath;
     String s_typ;
+    int i_widthScreen;
+    int i_heigthScreen;
+    int i_fieldStartMaxX;
+    int i_fieldStartMaxY;
     
     // constructor
     //
-    public Game(String data, String typ){
+    public Game(String data, String typ, int screenX, int screenY){
         s_datapath = data;
         s_typ = typ;
+        i_widthScreen = screenX;
+        i_heigthScreen = screenY;
     }// constructor
     
     // draw all things of the game
@@ -38,6 +45,44 @@ public class Game {
     public void Draw(Graphics g){
         fi_field.Draw(g);
     }// Draw
+    
+    // do something if key is pressed
+    //
+    public void keyPressed(String key){
+        if(key == "g")
+            fi_field.changeRasterVisible();
+    }// keyPressed
+    
+    // set horizontal and vertical move of the field, buildings, ...
+    //
+    public void setHorizontalMove(double dx){
+        fi_field.setHorizontalMove(dx);
+    }// setHorizontalMove
+    
+    public void setVerticalMove(double dy){
+        fi_field.setVerticalMove(dy);
+    }// setVerticalMove
+    
+    // move all
+    //
+    public void move(long delta){
+        Point one = fi_field.getPosLeftUp();
+        Point two = fi_field.getPosRightDown();
+        
+        int x1 = one.x;
+        int y1 = one.y;
+        int x2 = two.x;
+        int y2 = two.y;
+        
+        if(x1 <= 0 && y1 <= 0 && x2 >= i_fieldStartMaxX -  i_widthScreen &&
+                y2 >= i_fieldStartMaxX - i_heigthScreen)
+            fi_field.move(delta);
+        
+        if(x1 < 0){
+            setHorizontalMove(15);
+            move(delta);
+        }
+    }// move
     
     // load a map or a savegame
     //
@@ -78,6 +123,10 @@ public class Game {
         }// for 
         maploader.close();
         fi_field.initTerrain(s_datapath, s_typ);
+        Point two = fi_field.getPosRightDown();
+
+        int i_fieldStartMaxX = two.x;
+        int i_fieldStartMaxY = two.y;
         
         //fi_field.printTerrain();
     }// loadMap
