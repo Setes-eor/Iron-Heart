@@ -49,6 +49,7 @@ public class Credits extends Menu{
             if (buttonid == 4) {
                 dankepaps = null;
                 b_visible = false;
+                gc_gamecavs.setmousewait(true);
                 gc_gamecavs.sm_startmenu.setVisible(true);
             }// if
         }// if

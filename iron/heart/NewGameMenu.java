@@ -42,6 +42,7 @@ public class NewGameMenu extends Menu{
             //
             if (buttonid == 4) {
                 b_visible = false;
+                gc_gamecavs.setmousewait(true);
                 gc_gamecavs.sm_startmenu.setVisible(true);
             }// if
         }// if

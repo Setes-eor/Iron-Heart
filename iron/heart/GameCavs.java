@@ -12,6 +12,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferStrategy;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -34,11 +35,14 @@ public class GameCavs extends Canvas implements Runnable, KeyListener, MouseMoti
     int i_mouseX;
     int i_mouseY;
     long l_period = 10;
-    boolean b_mouseup;
+    
    
     BufferStrategy bs_Buffer;
     Graphics g;
     Thread t;
+    
+    boolean b_mousewait;
+    boolean b_mousewaitng;
     
     public StartMenu sm_startmenu;
     public NewGameMenu ng_newgame;
@@ -47,11 +51,12 @@ public class GameCavs extends Canvas implements Runnable, KeyListener, MouseMoti
     public Properties pr_properties;
     public AICombatMenu cm_combatmenu;
     
-    BasicEntity be_map;
+    Game g_game;
     String s_datapath = "data/";
     String s_menupath = "menus/";
     String s_menubackground = "backgrounds/mainmenu";
     String s_typ = ".png";
+    String s_userpath = "/home/setes/.ironheart/";
     HashMap<String,String> hm_stats;
     
     // constructor
@@ -60,7 +65,8 @@ public class GameCavs extends Canvas implements Runnable, KeyListener, MouseMoti
         i_widthScreen = x;
         i_heightScreen = y;
         
-        b_mouseup = true;
+        b_mousewait = false;
+        b_mousewaitng = false;
         
         sm_startmenu = new StartMenu(s_menubackground, s_datapath + s_menupath, s_typ,
                 i_widthScreen, i_heightScreen, this);
@@ -114,6 +120,13 @@ public class GameCavs extends Canvas implements Runnable, KeyListener, MouseMoti
         }// if
     }// startGame
     
+    // init the game
+    //
+    public void initGame(String mappath) throws IOException{
+        g_game = new Game();
+        g_game.loadMap(s_userpath + mappath);
+    }// initGame
+    
     // run the game with update render and draw / the game-loop
     //
     public void run(){
@@ -140,7 +153,7 @@ public class GameCavs extends Canvas implements Runnable, KeyListener, MouseMoti
     //
     public void Update(){
         if((hm_stats.get("Game")) == "active"){
-            be_map.move(500);
+            
             
         }// move
     }// Update
@@ -182,25 +195,29 @@ public class GameCavs extends Canvas implements Runnable, KeyListener, MouseMoti
         
     }// keyTyped
     
+    // setter for mouse wait
+    public void setmousewait(boolean mw){b_mousewait = mw;}
+    public void setmousewaitng(boolean mw){b_mousewaitng = mw;}
+    
     // do something when the mousekey is pressed
     //
     public void mouseClicked1(MouseEvent e){
-        if(b_mouseup){
-            System.out.println("mouse" + " " + e.getButton());
-            if (hm_stats.get("Start") == "active") {
-                if (e.getButton() == MouseEvent.BUTTON1) {
-                    sm_startmenu.mouseClicked(i_mouseX, i_mouseY);
+        if (hm_stats.get("Start") == "active") {
+            if (e.getButton() == MouseEvent.BUTTON1) {
+                lm_loadmenu.mouseClicked(i_mouseX, i_mouseY);
+                pr_properties.mouseClicked(i_mouseX, i_mouseY);
+                cr_credits.mouseClicked(i_mouseX, i_mouseY, 2);
+                cm_combatmenu.mouseClicked(i_mouseX, i_mouseY);
+                if(!b_mousewaitng)
                     ng_newgame.mouseClicked(i_mouseX, i_mouseY);
-                    lm_loadmenu.mouseClicked(i_mouseX, i_mouseY);
-                    pr_properties.mouseClicked(i_mouseX, i_mouseY);
-                    cr_credits.mouseClicked(i_mouseX, i_mouseY, 2);
-                    cm_combatmenu.mouseClicked(i_mouseX, i_mouseY);
-                }// if
-                else if (e.getButton() == MouseEvent.BUTTON3) {
-                    cr_credits.mouseClicked(i_mouseX, i_mouseY, 1);
-                }// if
+                if(!b_mousewait)
+                    sm_startmenu.mouseClicked(i_mouseX, i_mouseY);
             }// if
-            b_mouseup = false;
+            else if (e.getButton() == MouseEvent.BUTTON3) {
+                cr_credits.mouseClicked(i_mouseX, i_mouseY, 1);
+            }// if
+            b_mousewait = false;
+            b_mousewaitng = false;
         }// if
     }// mouseClicked1
     
@@ -247,16 +264,16 @@ public class GameCavs extends Canvas implements Runnable, KeyListener, MouseMoti
             
         
         if((hm_stats.get("Game")) == "active"){
-            if (e.getKeyCode() == KeyEvent.VK_LEFT && be_map.getXPos() < 0) {
+            if (e.getKeyCode() == KeyEvent.VK_LEFT) {
                // moveHorizontal(15);
             }
-            if (e.getKeyCode() == KeyEvent.VK_RIGHT && be_map.getXPos() > -1050) {
+            if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
                 //moveHorizontal(-15);
             }
-            if (e.getKeyCode() == KeyEvent.VK_UP && be_map.getYPos() < 0) {
+            if (e.getKeyCode() == KeyEvent.VK_UP ) {
                 //moveVertical(15);
             }
-            if (e.getKeyCode() == KeyEvent.VK_DOWN && be_map.getYPos() > -1050) {
+            if (e.getKeyCode() == KeyEvent.VK_DOWN) {
                 //moveVertical(-15);
             }
             if (e.getKeyCode() == KeyEvent.VK_B) {

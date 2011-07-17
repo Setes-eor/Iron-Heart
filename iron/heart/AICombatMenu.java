@@ -30,11 +30,16 @@ public class AICombatMenu extends Menu{
         if(b_visible){
             int buttonid = super.buttonClicked(x, y);
 
+            if(buttonid == 0){
+                gc_gamecavs.initGame("map/map1.map");
+                gc_gamecavs.setStateActive("Game");
+            }// if
             
             // close the game
             //
             if (buttonid == 4) {
                 b_visible = false;
+                gc_gamecavs.setmousewaitng(true);
                 gc_gamecavs.ng_newgame.setVisible(true);
             }// if
         }// if
@@ -48,8 +53,7 @@ public class AICombatMenu extends Menu{
         String button = "buttons/button";
         String textp = "texts/";
         addButton(s_datapath + button + s_typ, s_datapath + textp + "State1" + s_typ, x, y1, 0);
-        int buttonheight = lb_buttons.get(0).sp_sprite.getHeight();
-        deleteButton(0);  
+        int buttonheight = lb_buttons.get(0).sp_sprite.getHeight(); 
         addButton(s_datapath + button + s_typ, s_datapath + textp + "Back" + s_typ, x, y1 + 4 * buttonheight + 40, 4); 
     }// initButtons
 }// class StartMenu
