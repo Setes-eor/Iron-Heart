@@ -123,10 +123,16 @@ public class GameCavs extends Canvas implements Runnable, KeyListener, MouseMoti
     // init the game
     //
     public void initGame(String mappath) throws IOException{
-        g_game = new Game(s_datapath, s_typ,i_widthScreen,i_heightScreen);
+        g_game = null;
+        g_game = new Game(s_datapath, s_typ,i_widthScreen,i_heightScreen, this);
+        g_game.initMenus(s_menubackground, s_menupath, mappath);
         g_game.loadMap(s_userpath + mappath);
+        setStateActive("Game");
     }// initGame
     
+    // set the game to null
+    //
+    public void setGameNull(){g_game = null;}
     // run the game with update render and draw / the game-loop
     //
     public void run(){
@@ -153,7 +159,7 @@ public class GameCavs extends Canvas implements Runnable, KeyListener, MouseMoti
     //
     public void Update(){
         if((hm_stats.get("Game")) == "active"){
-            g_game.move(1000);  
+            g_game.move(5000);  
         }// move
     }// Update
     
@@ -222,6 +228,11 @@ public class GameCavs extends Canvas implements Runnable, KeyListener, MouseMoti
             b_mousewait = false;
             b_mousewaitng = false;
         }// if
+        if (hm_stats.get("Game") == "active") {
+            if (e.getButton() == MouseEvent.BUTTON1) {
+                g_game.mouseClicked(i_mouseX, i_mouseY);
+                }
+        }// if
     }// mouseClicked1
     
     // scroll over the map by mousemovement
@@ -230,28 +241,28 @@ public class GameCavs extends Canvas implements Runnable, KeyListener, MouseMoti
         i_mouseX = e.getX();
         i_mouseY = e.getY();
             
-        /*if((hm_stats.get("Game")) == "active" ){
-            if (i_mouseX < 10.0) {
-                //moveHorizontal(15);
-            } else if (i_mouseX > 500.0) {
-                //resetHorizontal();
+        if((hm_stats.get("Game")) == "active" ){
+            if (i_mouseX <= 20) {
+                g_game.setHorizontalMove(15);
+            } else if (i_mouseX >= 20) {
+                g_game.setHorizontalMove(0);
             }
-            if (i_mouseX > 1900.0 - i_MoveResolutionX && be_map.getXPos() > -1050) {
-                //moveHorizontal(-15);
-            } else if (i_mouseX < 1900.0 - i_MoveResolutionX) {
-                //resetHorizontal();
+            if (i_mouseX >= i_widthScreen - 20) {
+                g_game.setHorizontalMove(-15);
+            } else if (i_mouseX <= i_widthScreen - 10) {
+                g_game.setHorizontalMove(0);
             }
-            if (i_mouseY < 10.0 && be_map.getYPos() < 0) {
-                //moveVertical(15);
-            } else if (i_mouseY > 10.0) {
-                //resetVertical();
+            if (i_mouseY <= 20.0) {
+                g_game.setVerticalMove(15);
+            } else if (i_mouseY >= 20.0) {
+                g_game.setVerticalMove(0);
             }
-            if (i_mouseY > 1000.0 - i_MoveResolutionY && be_map.getYPos() > -1050) {
-                //moveVertical(-15);
-            } else if (i_mouseY < 1000.0 - i_MoveResolutionY) {
-                //resetVertical();
+            if (i_mouseY >= i_heightScreen - 20) {
+                g_game.setVerticalMove(-15);
+            } else if (i_mouseY <= i_heightScreen - 20) {
+                g_game.setVerticalMove(0);
             }
-        }// if*/
+        }// if
         
     }// mouseMoved
       
@@ -278,7 +289,8 @@ public class GameCavs extends Canvas implements Runnable, KeyListener, MouseMoti
             if (e.getKeyCode() == KeyEvent.VK_L) {
             }// if
             if (e.getKeyCode() == KeyEvent.VK_O) {
-                setStateActive("Option");
+                g_game.setStateActive("Option");
+                g_game.setOptionvisible(true);
             }// if
         }// if
        /* if(e.getKeyCode() == KeyEvent.VK_ESCAPE){

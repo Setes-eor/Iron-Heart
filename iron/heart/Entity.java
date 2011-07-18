@@ -73,7 +73,7 @@ public abstract class Entity {
     // draw the image of the entity on the screen
     public void Draw(Graphics g){
         // muss noch angepasst werden, dass es auf alle Auflösungen passt!!!!!!!!!!!!!!!!1
-        if(d_xPos >= 0 && d_yPos >= 0 && d_xPos <= 1920 && d_yPos <= 1080 && b_visible)
+        if(d_xPos >= -64 && d_yPos >= -64 && d_xPos <= 1920 + 64 && d_yPos <= 1080 + 64 && b_visible)
             sp_sprite.Draw(g,(int) d_xPos,(int) d_yPos);     
     }// Draw
        

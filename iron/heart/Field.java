@@ -72,7 +72,7 @@ public class Field {
                        typ, j * 64, i * 64);
                lbe_terrain.add(terrain);
             }// for 
-        initRaster(datapath,typ);
+        //initRaster(datapath,typ);
     }// initTerrain
     
     // init the terrain sprites
@@ -95,7 +95,7 @@ public class Field {
     public void Draw(Graphics g){
         for(int i = 0; i < i_fieldHeigth * i_fieldWidth; i++){
             lbe_terrain.get(i).Draw(g);
-            lbe_raster.get(i).Draw(g);
+            //lbe_raster.get(i).Draw(g);
         }// for 
     }// Draw
     
@@ -121,16 +121,16 @@ public class Field {
     public void setHorizontalMove(double dx){
          for(int i = 0; i < i_fieldHeigth * i_fieldWidth; i++){
             lbe_terrain.get(i).setHorizontalMove(dx);
-            if(b_rastervisible)
-                lbe_raster.get(i).setHorizontalMove(dx);
+            //if(b_rastervisible)
+              //  lbe_raster.get(i).setHorizontalMove(dx);
          }// for
     }// setHorizontalMove
     
     public void setVerticalMove(double dy){
         for(int i = 0; i < i_fieldHeigth * i_fieldWidth; i++){
             lbe_terrain.get(i).setVerticalMove(dy);
-            if(b_rastervisible)
-                lbe_raster.get(i).setVerticalMove(dy);
+            //if(b_rastervisible)
+              //  lbe_raster.get(i).setVerticalMove(dy);
         }// for
     }// setVerticalMove
     
@@ -139,8 +139,8 @@ public class Field {
     public void move(long delta){
         for(int i = 0; i < i_fieldHeigth * i_fieldWidth; i++){
             lbe_terrain.get(i).move(delta);
-            if(b_rastervisible)
-                lbe_raster.get(i).move(delta);
+            //if(b_rastervisible)
+              //  lbe_raster.get(i).move(delta);
         }// for
     }// move
     
