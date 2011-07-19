@@ -89,6 +89,8 @@ public class Game {
     public void keyPressed(String key){
         if(key == "g" && hm_gamestats.get("Game") == "active")
             fi_field.changeRasterVisible();
+        if(key == "b" && hm_gamestats.get("Game") == "active" )
+            lpl_players.get(0).keyPressed(key);
     }// keyPressed
     
     // set horizontal and vertical move of the field, buildings, ...
@@ -127,12 +129,43 @@ public class Game {
          }
     }// move
     
+    // move the mouse
+    //
+    public void mouseMove(int mouseX, int mouseY){
+         if(hm_gamestats.get("Game") == "active")
+            lpl_players.get(0).mouseMove(mouseX, mouseY);
+         
+         if (mouseX <= 20) {
+            setHorizontalMove(15);
+        } else if (mouseX >= 20) {
+            setHorizontalMove(0);
+        }
+        if (mouseX >= i_widthScreen - 20) {
+            setHorizontalMove(-15);
+        } else if (mouseX <= i_widthScreen - 10) {
+            setHorizontalMove(0);
+        }
+        if (mouseY <= 20.0) {
+            setVerticalMove(15);
+        } else if (mouseY >= 20.0) {
+            setVerticalMove(0);
+        }
+        if (mouseY >= i_heigthScreen - 20) {
+            setVerticalMove(-15);
+        } else if (mouseY <= i_heigthScreen - 20) {
+            setVerticalMove(0);
+        }
+    }// mouseMove
+    
     // do something when the mouse clicked
     //
     public void mouseClicked(int mouseX, int mouseY){
         if(hm_gamestats.get("Option") == "active"){
             op_option.mouseClicked(mouseX, mouseY);
         }// if
+        if(hm_gamestats.get("Game") == "active"){
+            lpl_players.get(0).mouseClicked(mouseX, mouseY);
+        }
     }// mouseClicked
     
     // load a map or a savegame
@@ -176,11 +209,13 @@ public class Game {
             int res2 = Integer.parseInt(resources[1]);
             
             if(player[i].startsWith("P")){
-                Player playere = new Player(playerid, playerspez, s_datapath, s_typ, res1, res2);
+                Player playere = new Player(playerid, playerspez, s_datapath, s_typ, res1, res2,
+                        i_widthScreen, i_heigthScreen, fi_field);
                 lpl_players.add(playere);
             }// if
             else if(player[i].startsWith("AI")){
-                AI aie = new AI(playerid, playerspez, s_datapath, s_typ, res1, res2);
+                AI aie = new AI(playerid, playerspez, s_datapath, s_typ, res1, res2,
+                        i_widthScreen, i_heigthScreen);
                 lai_ais.add(aie);
             }// else if 
         }// for

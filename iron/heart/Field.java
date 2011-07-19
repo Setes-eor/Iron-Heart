@@ -86,9 +86,78 @@ public class Field {
                BasicEntity raster = new BasicEntity(datapath + rasterpath + rastertyp +
                        typ, j * 64, i * 64);
                lbe_raster.add(raster);
-            }// for  
+            }// for
         changeRasterVisible();
     }// initTerrain
+    
+    // set a Build on the field
+    //
+    public boolean addbuild(int x, int y, String build){
+        // Größe der Gebäude beachten beachten !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        if(fe_field[y / 64][x / 64].isFieldFree() && fe_field[y / 64][(x / 64) + 1].isFieldFree()
+                && fe_field[(y / 64) - 1][x / 64].isFieldFree() 
+                && fe_field[(y / 64) + 1][(x / 64) + 1].isFieldFree()){
+            fe_field[y / 64][x / 64].setBuild(build);
+            fe_field[y / 64][x / 64].setBuild(build);
+            fe_field[y / 64][x / 64].setBuild(build);
+            fe_field[y / 64][x / 64].setBuild(build);
+            return true;
+        }// if
+        else
+            return false;
+    }// addbuild
+    
+    // calculate a point in the raster of the field
+    //
+    public void Raster(int mouseX, int mouseY, Player player){
+        // Raster Setzung
+        int rasterBigX = 0;
+        int rasterSmallX = 0;
+        int rasterBigY = 0;
+        int rasterSmallY = 0;
+        int rasterSetX = mouseX;
+        int rasterSetY = mouseY;
+        int rasterindex = 64;
+        int width = i_fieldWidth * 64;
+        int heigth = i_fieldHeigth * 64;
+
+        
+        while (rasterSetX > rasterBigX) {
+
+            rasterSmallX = rasterBigX;
+            rasterBigX += rasterindex;
+            if (rasterBigX > width) {
+                System.out.println("out of the field");
+
+                break;
+            }// if Auserhalb Spielfeld
+        }// while RasterBerechnung
+
+        if (rasterSetX - rasterSmallX <= rasterBigX - rasterSetX) {
+            rasterSetX = rasterSmallX;
+        } else {
+            rasterSetX = rasterBigX;
+        }
+
+        // Raster Berechnung für Y
+        while (rasterSetY > rasterBigY) {
+
+            rasterSmallY = rasterBigY;
+            rasterBigY += rasterindex; 
+            if (rasterBigY > heigth ) {
+                System.out.println("out of the field");
+
+            }// if Y auserhalb Spielfeld
+        }// while RasterBerechnung Y
+
+        if (rasterSetY - rasterSmallY <= rasterBigY - rasterSetY) {
+            rasterSetY = rasterSmallY;
+        } else {
+            rasterSetY = rasterBigY;
+        }
+
+        player.moveCurser(rasterSetX, rasterSetY);
+    }// Raster
     
     // draw the terrain ...
     //

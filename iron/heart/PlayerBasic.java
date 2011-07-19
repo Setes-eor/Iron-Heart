@@ -19,6 +19,8 @@ public class PlayerBasic {
     Resources r_resources;
     String s_mainpath;
     String s_typ;
+    int i_screenWidth;
+    int i_screenHeigth;
     
     // default-constructor
     //
@@ -32,12 +34,15 @@ public class PlayerBasic {
     
     // constructor
     //
-    public PlayerBasic(String ID, String spezID, String mainpath, String typ, int res1, int res2){
+    public PlayerBasic(String ID, String spezID, String mainpath, String typ, int res1, int res2,
+            int screenWidth, int screenHeight){
         s_playerID = ID;
         s_speziesID = spezID;
         r_resources = new Resources(s_playerID, res1, res2);
         s_mainpath = mainpath + "gfx/";
         s_typ = typ;
+        i_screenWidth = screenWidth;
+        i_screenHeigth = screenHeight;
     }// constructor
     
     // draw all the things of the player buldings, units, resources-bar

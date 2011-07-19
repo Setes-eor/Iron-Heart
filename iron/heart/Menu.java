@@ -44,6 +44,18 @@ public abstract class Menu extends Entity{
         b_visible = true;
     }// constructor
 
+    // constructor
+    //
+    public Menu(String ref, String data, String typ, int x, int y, int i){
+        super(data + ref + typ, x, y);
+        i_ButtonsID = 0;
+        i_ButtonpNumID = 0;
+        s_typ = typ;
+        s_datapath = data;
+        lb_buttons = new ArrayList<Button>();  
+        bn_buttons = new ArrayList<ButtonpNum>();
+    }// constructor
+    
     // set the buttons of the menu
     //
     protected void addButton(String ref, String tref, int x, int y){

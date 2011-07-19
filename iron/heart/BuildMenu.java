@@ -4,6 +4,8 @@
  */
 package iron.heart;
 
+import java.util.HashMap;
+
 /**
  *
  * @author setes
@@ -12,24 +14,63 @@ public class BuildMenu extends Menu {
 
     // attributes of the class
     // 
+    String s_mainpath;
     String i_spezID;
+    Player pl_player;
+    HashMap<String, String> hm_buildart;
     
     // constructor
     //
-    public BuildMenu(String ref, String data, String typ, int screenW, int screenH,
-            String spezId) {
-        super(ref, data, typ, screenW, screenH);
+    public BuildMenu(String ref, String data, String typ, int x, int y,
+            String spezID, Player player) {
+        super(ref, data + "menus/", typ, x, y,1);
         initButtons();
+        s_mainpath = data;
         b_visible = false;
+        i_spezID = spezID;
+        pl_player = player;
+        hm_buildart = new HashMap<String, String>();
+        initBuildArts();
     }// constructor
 
+    // init the buildarts
+    //
+    public void initBuildArts(){
+        hm_buildart.put("main", "inactive");
+        hm_buildart.put("builds", "inactive");
+        hm_buildart.put("units", "inactive");
+        hm_buildart.put("research", "inactive");
+    }// initBuildArts
+    
+    // set a buildart to active
+    //
+    public void setBuildArtActive(String key){
+        initBuildArts();
+        hm_buildart.put(key, "active");
+    }// setBuildArtActive
+    
+    // changethe visible
+    //
+    public void changeVisible(){
+        if(b_visible){
+            b_visible = false;
+        }// if
+        else
+            b_visible = true;
+    }// changeVisible
+    
     @Override
     public void mouseClicked(int x, int y) {
         if (b_visible) {
             int buttonid = super.buttonClicked(x, y);
+            String buildingspath = "gfx/buildings/";
 
             if (buttonid == 0) {
-                b_visible = false;
+                if(hm_buildart.get("builds") == "active"){
+                    pl_player.initCurser(s_mainpath + buildingspath + "a/" + "main" + s_typ
+                            , x, y);
+                    pl_player.b_buildactive = true;
+                }// if
             }// if
 
             // close the game
@@ -44,20 +85,20 @@ public class BuildMenu extends Menu {
 
     @Override
     public final void initButtons() {
-        int x = this.getXPos() + 3;
-        int y1 = this.getYPos() + 5;
+        int x = this.getXPos() + 8;
+        int y1 = this.getYPos() + 8;
         String button = "buttons/buildbutton";
         String textp = "texts/";
-        addButton(s_datapath + button + s_typ, s_datapath + textp + "" + s_typ, x, y1, 0);
+        addButton(s_datapath + button + s_typ, "", x, y1, 0);
         int buttonheight = lb_buttons.get(0).sp_sprite.getHeight();
         int buttonwidth = lb_buttons.get(0).sp_sprite.getWidth();
-        addButton(s_datapath + button + s_typ, s_datapath + textp + "" + s_typ, x + buttonwidth + 5, y1 , 1);
-        addButton(s_datapath + button + s_typ, s_datapath + textp + "" + s_typ, x + 2 * buttonwidth + 10, y1, 2);
-        addButton(s_datapath + button + s_typ, s_datapath + textp + "" + s_typ, x, y1 + buttonheight + 10, 3);
-        addButton(s_datapath + button + s_typ, s_datapath + textp + "" + s_typ, x + buttonwidth + 5, y1 + buttonheight + 10, 4);
-        addButton(s_datapath + button + s_typ, s_datapath + textp + "" + s_typ, x + 2 * buttonwidth + 10, y1 + buttonheight + 10, 5);
-        addButton(s_datapath + button + s_typ, s_datapath + textp + "" + s_typ, x, y1 + 2 * buttonheight + 15, 6);
-        addButton(s_datapath + button + s_typ, s_datapath + textp + "" + s_typ, x + buttonwidth + 5, y1 + 2 * buttonheight + 15, 7);
-        addButton(s_datapath + button + s_typ, s_datapath + textp + "" + s_typ, x + 2 * buttonwidth + 10, y1 + 2 * buttonheight + 15, 8);
+        addButton(s_datapath + button + s_typ, "" , x + buttonwidth + 5, y1 , 1);
+        addButton(s_datapath + button + s_typ, "", x + 2 * buttonwidth + 10, y1, 2);
+        addButton(s_datapath + button + s_typ, "", x, y1 + buttonheight + 5, 3);
+        addButton(s_datapath + button + s_typ, "", x + buttonwidth + 5, y1 + buttonheight + 5, 4);
+        addButton(s_datapath + button + s_typ, "", x + 2 * buttonwidth + 10, y1 + buttonheight + 5, 5);
+        addButton(s_datapath + button + s_typ, "", x, y1 + 2 * buttonheight + 10, 6);
+        addButton(s_datapath + button + s_typ, "", x + buttonwidth + 5, y1 + 2 * buttonheight + 10, 7);
+        addButton(s_datapath + button + s_typ, "", x + 2 * buttonwidth + 10, y1 + 2 * buttonheight + 10, 8);
     }// initButtons
 }// BuildMenu

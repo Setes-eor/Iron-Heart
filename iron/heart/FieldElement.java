@@ -46,6 +46,14 @@ public class FieldElement {
         hm_fieldinfo.put("build", build);
     }// initFieldInfo
     
+    // set a build in a field
+    //
+    public void setBuild(String build){
+        hm_fieldinfo.put("build", build);
+        blockField();
+    }// setBuild
+    
+
     // block a field
     //
     public void blockField(){

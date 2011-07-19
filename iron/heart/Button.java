@@ -22,12 +22,15 @@ public class Button extends Entity{
         super(ref,x,y);
         i_ButtonID = id;
         
-        texts = new BasicEntity(textref, 0, 0);
-        int xt = x + ((this.sp_sprite.getWidth() - texts.sp_sprite.getWidth()) / 2);
-        int yt = y + ((this.sp_sprite.getHeight() - texts.sp_sprite.getHeight()) / 2);
+        if(textref != ""){
+            texts = new BasicEntity(textref, 0, 0);
+            int xt = x + ((this.sp_sprite.getWidth() - texts.sp_sprite.getWidth()) / 2);
+            int yt = y + ((this.sp_sprite.getHeight() - texts.sp_sprite.getHeight()) / 2);
+
+            texts.setXPos(xt);
+            texts.setYPos(yt);
+        }// if
         
-        texts.setXPos(xt);
-        texts.setYPos(yt);
     }// // constructor
 
     // returns the ButtonID
@@ -38,6 +41,7 @@ public class Button extends Entity{
     @Override
     public void Draw(Graphics g){
         sp_sprite.Draw(g,(int) d_xPos,(int) d_yPos); 
+        if(texts != null)
         texts.Draw(g);
     }// Draw
     @Override

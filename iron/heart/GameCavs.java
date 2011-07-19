@@ -31,7 +31,7 @@ public class GameCavs extends Canvas implements Runnable, KeyListener, MouseMoti
     // attributes of the class
     //
     int i_widthScreen = 1024;
-    int i_heightScreen = 768; 
+    int i_heigthScreen = 768; 
     int i_mouseX;
     int i_mouseY;
     long l_period = 10;
@@ -63,26 +63,26 @@ public class GameCavs extends Canvas implements Runnable, KeyListener, MouseMoti
     //
     public GameCavs(int x, int y){
         i_widthScreen = x;
-        i_heightScreen = y;
+        i_heigthScreen = y;
         
         b_mousewait = false;
         b_mousewaitng = false;
         
         sm_startmenu = new StartMenu(s_menubackground, s_datapath + s_menupath, s_typ,
-                i_widthScreen, i_heightScreen, this);
+                i_widthScreen, i_heigthScreen, this);
         ng_newgame = new NewGameMenu(s_menubackground, s_datapath + s_menupath, s_typ,
-                i_widthScreen, i_heightScreen, this);
+                i_widthScreen, i_heigthScreen, this);
         lm_loadmenu = new LoadMenu(s_menubackground, s_datapath + s_menupath, s_typ,
-                i_widthScreen, i_heightScreen, this);
+                i_widthScreen, i_heigthScreen, this);
         pr_properties = new Properties(s_menubackground, s_datapath + s_menupath, s_typ,
-                i_widthScreen, i_heightScreen, this);
+                i_widthScreen, i_heigthScreen, this);
         cr_credits = new Credits(s_menubackground, s_datapath + s_menupath, s_typ,
-                i_widthScreen, i_heightScreen, this);
+                i_widthScreen, i_heigthScreen, this);
         cm_combatmenu = new AICombatMenu(s_menubackground, s_datapath + s_menupath, s_typ,
-                i_widthScreen, i_heightScreen, this);
+                i_widthScreen, i_heigthScreen, this);
         
         this.setIgnoreRepaint(true);
-        this.setBounds(0, 0, i_widthScreen, i_heightScreen);
+        this.setBounds(0, 0, i_widthScreen, i_heigthScreen);
         this.setBackground(Color.GRAY);
             
         this.setVisible(true); 
@@ -124,7 +124,7 @@ public class GameCavs extends Canvas implements Runnable, KeyListener, MouseMoti
     //
     public void initGame(String mappath) throws IOException{
         g_game = null;
-        g_game = new Game(s_datapath, s_typ,i_widthScreen,i_heightScreen, this);
+        g_game = new Game(s_datapath, s_typ,i_widthScreen,i_heigthScreen, this);
         g_game.initMenus(s_menubackground, s_menupath, mappath);
         g_game.loadMap(s_userpath + mappath);
         setStateActive("Game");
@@ -168,7 +168,7 @@ public class GameCavs extends Canvas implements Runnable, KeyListener, MouseMoti
     public void Render(){
         g = bs_Buffer.getDrawGraphics();
         g.setColor(Color.white);
-        g.fillRect(0, 0, i_widthScreen, i_heightScreen);
+        g.fillRect(0, 0, i_widthScreen, i_heigthScreen);
         
         // Paint stuff
         if(hm_stats.get("Start") == "active"){
@@ -240,28 +240,9 @@ public class GameCavs extends Canvas implements Runnable, KeyListener, MouseMoti
     public void mouseMoved(final MouseEvent e) {
         i_mouseX = e.getX();
         i_mouseY = e.getY();
-            
+        
         if((hm_stats.get("Game")) == "active" ){
-            if (i_mouseX <= 20) {
-                g_game.setHorizontalMove(15);
-            } else if (i_mouseX >= 20) {
-                g_game.setHorizontalMove(0);
-            }
-            if (i_mouseX >= i_widthScreen - 20) {
-                g_game.setHorizontalMove(-15);
-            } else if (i_mouseX <= i_widthScreen - 10) {
-                g_game.setHorizontalMove(0);
-            }
-            if (i_mouseY <= 20.0) {
-                g_game.setVerticalMove(15);
-            } else if (i_mouseY >= 20.0) {
-                g_game.setVerticalMove(0);
-            }
-            if (i_mouseY >= i_heightScreen - 20) {
-                g_game.setVerticalMove(-15);
-            } else if (i_mouseY <= i_heightScreen - 20) {
-                g_game.setVerticalMove(0);
-            }
+            g_game.mouseMove(i_mouseX, i_mouseY);
         }// if
         
     }// mouseMoved
@@ -272,6 +253,8 @@ public class GameCavs extends Canvas implements Runnable, KeyListener, MouseMoti
         if((hm_stats.get("Game")) == "active"){
             if(e.getKeyCode() == KeyEvent.VK_G)
                 g_game.keyPressed("g");
+            if(e.getKeyCode() == KeyEvent.VK_B)
+                g_game.keyPressed("b");
             if (e.getKeyCode() == KeyEvent.VK_LEFT) {
                 g_game.setHorizontalMove(15);
             }
