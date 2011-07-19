@@ -34,10 +34,12 @@ public class Game {
     String s_typ;
     GameCavs gc_gamecavs;
     Optionmenu op_option;
+    Minimap mi_map;
     int i_widthScreen;
     int i_heigthScreen;
     int i_fieldStartMaxX;
     int i_fieldStartMaxY;
+    int i_minimapxy = 267;
     
     // constructor
     //
@@ -50,8 +52,9 @@ public class Game {
         lpl_players = new ArrayList<Player>();
         lai_ais = new ArrayList<AI>();
          
-       // hm_gamestats = new HashMap<String,String>();
-        setStateActive("Game");   
+       
+        setStateActive("Game");  
+        
     }// constructor
     
     // init the menus
@@ -78,6 +81,7 @@ public class Game {
             lai_ais.get(i).Draw(g);
         if(hm_gamestats.get("Option") == "active")
             op_option.Draw(g);
+        mi_map.Draw(g);
     }// Draw
     
     // do something if key is pressed
@@ -100,8 +104,10 @@ public class Game {
     // move all
     //
     public void move(long delta){
-        int tst = 1;
-        if(hm_gamestats.get("Game") == "active"){
+        
+       if(hm_gamestats.get("Game") == "active"){
+           
+      
             //Point one = fi_field.getPosLeftUp();
             //Point two = fi_field.getPosRightDown();
 
@@ -111,14 +117,14 @@ public class Game {
             //int y2 = two.y;
 
             //if(x1 <= 0 && y1 <= 0 && x2 >= i_fieldStartMaxX -  i_widthScreen &&
-            //     y2 >= i_fieldStartMaxX - i_heigthScreen)
-            // fi_field.move(delta);
+              //   y2 >= i_fieldStartMaxX - i_heigthScreen)
+             fi_field.move(delta);
 
-            //if(x1 >= -5){
+            //if(x1 <= -5){
             // setHorizontalMove(15);
-            move(delta);
-            //}
-        }// if
+            //fi_field.move(delta);
+           // }
+         }
     }// move
     
     // do something when the mouse clicked
@@ -203,6 +209,8 @@ public class Game {
         int i_fieldStartMaxX = two.x;
         int i_fieldStartMaxY = two.y;
         
+        mi_map = new Minimap(s_datapath + "gfx/displays/minimap" + s_typ ,
+                i_widthScreen  - i_minimapxy - 5, 5);
         //fi_field.printTerrain();
     }// loadMap
     

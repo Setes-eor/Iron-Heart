@@ -54,6 +54,8 @@ public class Optionmenu extends Menu {
             b_visible = false;
             gc_gamecavs.setStateActive("Start");
             gc_gamecavs.setGameNull();
+            gc_gamecavs.cm_combatmenu.setVisible(false);
+            gc_gamecavs.ng_newgame.setVisible(false);
             gc_gamecavs.sm_startmenu.setVisible(true);
             
         }// if

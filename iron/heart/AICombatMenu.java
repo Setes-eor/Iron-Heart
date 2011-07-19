@@ -36,8 +36,9 @@ public class AICombatMenu extends Menu{
 
             if(buttonid == 0){
                 try {
-                    gc_gamecavs.initGame("map/map1.map");
                     b_visible = false;
+                    gc_gamecavs.initGame("map/map1.map");
+                    
                 } catch (IOException ex) {
                     Logger.getLogger(AICombatMenu.class.getName()).log(Level.SEVERE, null, ex);
                 }// catch
