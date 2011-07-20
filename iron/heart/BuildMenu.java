@@ -4,6 +4,7 @@
  */
 package iron.heart;
 
+import iron.heart.Player;
 import java.util.HashMap;
 
 /**
@@ -18,6 +19,7 @@ public class BuildMenu extends Menu {
     String i_spezID;
     Player pl_player;
     HashMap<String, String> hm_buildart;
+    String s_buildingid;
     
     // constructor
     //
@@ -31,6 +33,7 @@ public class BuildMenu extends Menu {
         pl_player = player;
         hm_buildart = new HashMap<String, String>();
         initBuildArts();
+        s_buildingid = "none";
     }// constructor
 
     // init the buildarts
@@ -54,6 +57,7 @@ public class BuildMenu extends Menu {
     public void changeVisible(){
         if(b_visible){
             b_visible = false;
+            pl_player.b_buildactive = false;
         }// if
         else
             b_visible = true;
@@ -70,6 +74,8 @@ public class BuildMenu extends Menu {
                     pl_player.initCurser(s_mainpath + buildingspath + "a/" + "main" + s_typ
                             , x, y);
                     pl_player.b_buildactive = true;
+                    s_buildingid = "main";
+                    
                 }// if
             }// if
 
@@ -80,9 +86,13 @@ public class BuildMenu extends Menu {
             }// if
         }// if
     }// mouseClicked
+    
+    // get the buildid
+    //
+    public String getBuildID(){return s_buildingid;}
+    
     // init the Buttons of the StartMenu
     //
-
     @Override
     public final void initButtons() {
         int x = this.getXPos() + 8;

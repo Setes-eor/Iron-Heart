@@ -40,11 +40,20 @@ public class Resources {
     //
     public boolean enaughResources(int ore, int gas, int population){
         if(i_ore - ore >= 0 && i_gas - gas >= 0 && i_population + population <= 
-                i_maxPopulation)
+                i_maxPopulation){
             return true;
+        }  
         else
             return false;
     }// enaughResources
+    
+    // pay the cost for a build or unit
+    //
+    public void payCosts(int ore, int gas, int pop){
+         i_ore -= ore;
+         i_gas -= gas;
+         i_population += pop;
+    }// payCost
     
     // add resources
     //

@@ -4,8 +4,9 @@
  */
 package iron.heart;
 
-import iron.heart.Button;
 import iron.heart.ButtonpNum;
+import iron.heart.Button;
+import iron.heart.Entity;
 import iron.heart.Entity;
 import java.awt.Graphics;
 import java.util.ArrayList;

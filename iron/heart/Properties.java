@@ -4,6 +4,9 @@
  */
 package iron.heart;
 
+import iron.heart.GameCavs;
+import iron.heart.Menu;
+
 /**
  *
  * @author setes

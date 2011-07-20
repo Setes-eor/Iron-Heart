@@ -4,6 +4,8 @@
  */
 package iron.heart;
 
+import iron.heart.Entity;
+import iron.heart.GameCavs;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;

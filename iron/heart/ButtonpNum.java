@@ -4,6 +4,8 @@
  */
 package iron.heart;
 
+import iron.heart.BasicEntity;
+import iron.heart.Button;
 import java.awt.Graphics;
 
 /**

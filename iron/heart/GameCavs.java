@@ -230,7 +230,10 @@ public class GameCavs extends Canvas implements Runnable, KeyListener, MouseMoti
         }// if
         if (hm_stats.get("Game") == "active") {
             if (e.getButton() == MouseEvent.BUTTON1) {
-                g_game.mouseClicked(i_mouseX, i_mouseY);
+                g_game.mouseClicked(i_mouseX, i_mouseY, "left");
+                }
+            if (e.getButton() == MouseEvent.BUTTON3) {
+                g_game.mouseClicked(i_mouseX, i_mouseY, "right");
                 }
         }// if
     }// mouseClicked1

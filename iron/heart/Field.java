@@ -90,22 +90,91 @@ public class Field {
         changeRasterVisible();
     }// initTerrain
     
-    // set a Build on the field
+    // is the field free for a build
     //
-    public boolean addbuild(int x, int y, String build){
+    public boolean isfieldFree(int x, int y, String build, String raster){
         // Größe der Gebäude beachten beachten !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        if(fe_field[y / 64][x / 64].isFieldFree() && fe_field[y / 64][(x / 64) + 1].isFieldFree()
-                && fe_field[(y / 64) - 1][x / 64].isFieldFree() 
-                && fe_field[(y / 64) + 1][(x / 64) + 1].isFieldFree()){
-            fe_field[y / 64][x / 64].setBuild(build);
-            fe_field[y / 64][x / 64].setBuild(build);
-            fe_field[y / 64][x / 64].setBuild(build);
-            fe_field[y / 64][x / 64].setBuild(build);
-            return true;
+        if(raster.equals("2*2")){
+            if (fe_field[y / 64][x / 64].isFieldFree() && fe_field[y / 64][(x / 64) + 1].isFieldFree()
+                    && fe_field[(y / 64) + 1][x / 64].isFieldFree()
+                    && fe_field[(y / 64) + 1][(x / 64) + 1].isFieldFree())
+                return true;
+            else return false;
         }// if
-        else
-            return false;
-    }// addbuild
+        else if(raster.equals("2*1"))
+        {
+            if (fe_field[y / 64][x / 64].isFieldFree() && fe_field[y / 64][(x / 64) + 1].isFieldFree())
+                return true;
+            else 
+                return false;
+        }// if
+        else if (raster.equals("1*1")) {
+            if (fe_field[y / 64][x / 64].isFieldFree())
+                return true;
+            else 
+                return false;
+        }// if
+        else if (raster.equals("2*3")) {
+            if (fe_field[y / 64][x / 64].isFieldFree() && fe_field[y / 64][(x / 64) + 1].isFieldFree()
+                    && fe_field[(y / 64) + 1][x / 64].isFieldFree()
+                    && fe_field[(y / 64) + 1][(x / 64) + 1].isFieldFree()
+                    && fe_field[(y / 64) + 2][x / 64].isFieldFree()
+                    && fe_field[(y / 64) + 2][(x / 64) + 1].isFieldFree()) 
+                return true;
+            else
+                return false;
+        }// if
+        else if (raster.equals("3*3")) {
+            if (fe_field[y / 64][x / 64].isFieldFree() && fe_field[y / 64][(x / 64) + 1].isFieldFree()
+                    && fe_field[y / 64][(x / 64) + 2].isFieldFree()
+                    && fe_field[(y / 64) + 1][x / 64].isFieldFree()
+                    && fe_field[(y / 64) + 1][(x / 64) + 1].isFieldFree()
+                    && fe_field[(y / 64) + 1][(x / 64) + 2].isFieldFree()
+                    && fe_field[(y / 64) + 2][x / 64].isFieldFree()
+                    && fe_field[(y / 64) + 2][(x / 64) + 1].isFieldFree()
+                    && fe_field[(y / 64) + 2][(x / 64) + 2].isFieldFree())
+                return true;
+            else 
+                return false;
+        }// if
+        return false;
+    }// isfieldFree
+    
+    // add a build
+    //
+    public void addBuild(int x, int y, String build, String raster){
+        if (raster.equals("2*2")) {
+                fe_field[y / 64][(x / 64) + 1].setBuild(build);
+                fe_field[(y / 64) + 1][x / 64].setBuild(build);
+                fe_field[(y / 64) + 1][(x / 64) + 1].setBuild(build);
+        }// if
+        else if (raster.equals("2*1")) {
+                fe_field[y / 64][x / 64].setBuild(build);
+        }// if
+        else if (raster.equals("1*1")) {
+                fe_field[y / 64][x / 64].setBuild(build);
+        }// if
+        else if (raster.equals("2*3")) {
+                fe_field[y / 64][x / 64].setBuild(build);
+                fe_field[y / 64][(x / 64) + 1].setBuild(build);
+                fe_field[(y / 64) + 1][x / 64].setBuild(build);
+                fe_field[(y / 64) + 1][(x / 64) + 1].setBuild(build);
+                fe_field[(y / 64) + 2][x / 64].setBuild(build);
+                fe_field[(y / 64) + 2][(x / 64) + 1].setBuild(build);
+        }// if
+        else if (raster.equals("3*3")) {
+                fe_field[y / 64][x / 64].setBuild(build);
+                fe_field[y / 64][(x / 64) + 1].setBuild(build);
+                fe_field[y / 64][(x / 64) + 2].setBuild(build);
+                fe_field[(y / 64) + 1][x / 64].setBuild(build);
+                fe_field[(y / 64) + 1][(x / 64) + 1].setBuild(build);
+                fe_field[(y / 64) + 1][(x / 64) + 2].setBuild(build);
+                fe_field[(y / 64) + 2][x / 64].setBuild(build);
+                fe_field[(y / 64) + 2][(x / 64) + 1].setBuild(build);
+                fe_field[(y / 64) + 2][(x / 64) + 2].setBuild(build);  
+        }// if
+        printTerrain();
+    }// addBuild
     
     // calculate a point in the raster of the field
     //
@@ -226,7 +295,7 @@ public class Field {
     public void printTerrain(){
         for(int i = 0; i < i_fieldHeigth; i++){
             for(int j = 0; j < i_fieldWidth; j++){
-                if(fe_field[i][j].getTerrainTyp() == "grass")
+                if(fe_field[i][j].getBuild().equals("main"))
                     System.out.print(1);
                 else
                     System.out.print(0);

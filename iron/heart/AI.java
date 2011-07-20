@@ -19,7 +19,7 @@ public class AI extends PlayerBasic{
     // constructor
     //
     public AI(String ID, String spezID, String mainpath, String typ, int res1, int res2,
-            int screenWidth, int screenHeigth){
-        super(ID, spezID, mainpath, typ, res1, res2, screenWidth, screenHeigth);
+            int screenWidth, int screenHeigth, Field field){
+        super(ID, spezID, mainpath, typ, res1, res2, screenWidth, screenHeigth, field);
     }// constructor
 }// class AI

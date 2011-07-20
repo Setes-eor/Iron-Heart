@@ -22,7 +22,7 @@ public abstract class Entity {
     protected double d_Dx;
     protected double d_Dy;
     protected boolean b_visible;
-    
+    protected String s_ref;
     protected int i_persID;  // personal id of a entity
     
     protected Sprite sp_sprite;
@@ -37,6 +37,7 @@ public abstract class Entity {
         d_xPos = x;
         d_yPos = y;
         b_visible = true;
+        s_ref = ref;
     }// constructor
        
     // change the image of a Entity
@@ -51,6 +52,7 @@ public abstract class Entity {
     public void setYPos(double y){d_yPos = y;}
     public int getXPos(){return (int) d_xPos;}
     public int getYPos(){return (int) d_yPos;}
+    public String getRef(){return s_ref;}
     
     // set and get visible
     //

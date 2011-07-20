@@ -18,7 +18,7 @@ public class Player extends PlayerBasic{
     BuildMenu bm_buildmenu;
     BasicEntity be_curser;
     public boolean b_buildactive;
-    Field fi_field;
+    
     
     // default-constructor
     //
@@ -30,7 +30,7 @@ public class Player extends PlayerBasic{
     //
     public Player(String ID, String spezID, String mainpath, String typ, int res1, int res2,
             int screenWidth, int screenHeight, Field field){
-        super(ID, spezID, mainpath, typ, res1, res2, screenWidth, screenHeight);
+        super(ID, spezID, mainpath, typ, res1, res2, screenWidth, screenHeight, field);
         String resourcebar = "resourcebar_sp1";
         if(spezID == "F")
             resourcebar = "resourcebar_sp2";
@@ -69,8 +69,37 @@ public class Player extends PlayerBasic{
     
     // do somthing by mouseclick
     //
-    public void mouseClicked(int mouseX, int mouseY){
+    public void mouseClicked(int mouseX, int mouseY, String button){
+        if(button == "left"){
+            // add a build
+            if(b_buildactive){
+                
+                String[] buildinfos = hm_abuildings.get(bm_buildmenu.getBuildID()).split(";");
+                String[] resources = buildinfos[0].split(",");
+                String[] sres1 = resources[0].split("=");
+                String[] sres2 = resources[1].split("=");
+                int res1 = Integer.parseInt(sres1[1]);
+                int res2 = Integer.parseInt(sres2[1]);
+                int pop = 0;
+                String raster = buildinfos[1];
+                int energy = Integer.parseInt(buildinfos[2]);
+                
+                if(r_resources.enaughResources(res1, res2, pop) && 
+                        fi_field.isfieldFree(be_curser.getXPos(), be_curser.getYPos(), bm_buildmenu.getBuildID(), raster)){
+                    r_resources.payCosts(res1, res2, pop);
+                    fi_field.addBuild(be_curser.getXPos(), be_curser.getYPos(), bm_buildmenu.getBuildID(), raster);
+                    Buildings build = new Buildings(be_curser.getRef(), be_curser.getXPos(),
+                            be_curser.getYPos(), energy);
+                    lb_buildings.add(build);
+                }// if
+                
+            }// if   
+        }// if
         bm_buildmenu.mouseClicked(mouseX, mouseY);
+        if(button == "right"){
+            if(b_buildactive)
+                b_buildactive = false;
+        }// if
     }// mouseClicked
     
     // move the mouse
@@ -82,6 +111,7 @@ public class Player extends PlayerBasic{
             
     }// mouseMove
     
+    
     @Override
     public void Draw(Graphics g){
         super.Draw(g);
@@ -90,6 +120,7 @@ public class Player extends PlayerBasic{
         bm_buildmenu.Draw(g);
         if(b_buildactive)
             be_curser.Draw(g);
+        
     }// Draw
     
 }// class Player

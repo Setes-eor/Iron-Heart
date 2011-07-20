@@ -97,10 +97,18 @@ public class Game {
     //
     public void setHorizontalMove(double dx){
         fi_field.setHorizontalMove(dx);
+        for(int i = 0; i < lpl_players.size(); i++)
+            lpl_players.get(i).setHorizontalMove(dx);
+        for(int i = 0; i < lai_ais.size(); i++)
+            lai_ais.get(i).setHorizontalMove(dx);
     }// setHorizontalMove
     
     public void setVerticalMove(double dy){
         fi_field.setVerticalMove(dy);
+        for(int i = 0; i < lpl_players.size(); i++)
+            lpl_players.get(i).setVerticalMove(dy);
+        for(int i = 0; i < lai_ais.size(); i++)
+            lai_ais.get(i).setVerticalMove(dy);
     }// setVerticalMove
     
     // move all
@@ -126,6 +134,12 @@ public class Game {
             // setHorizontalMove(15);
             //fi_field.move(delta);
            // }
+           for (int i = 0; i < lpl_players.size(); i++) {
+               lpl_players.get(i).Move(delta);
+           }
+           for (int i = 0; i < lai_ais.size(); i++) {
+               lai_ais.get(i).Move(delta);
+           }
          }
     }// move
     
@@ -159,12 +173,12 @@ public class Game {
     
     // do something when the mouse clicked
     //
-    public void mouseClicked(int mouseX, int mouseY){
+    public void mouseClicked(int mouseX, int mouseY, String button){
         if(hm_gamestats.get("Option") == "active"){
             op_option.mouseClicked(mouseX, mouseY);
         }// if
         if(hm_gamestats.get("Game") == "active"){
-            lpl_players.get(0).mouseClicked(mouseX, mouseY);
+            lpl_players.get(0).mouseClicked(mouseX, mouseY, button);
         }
     }// mouseClicked
     
@@ -215,7 +229,7 @@ public class Game {
             }// if
             else if(player[i].startsWith("AI")){
                 AI aie = new AI(playerid, playerspez, s_datapath, s_typ, res1, res2,
-                        i_widthScreen, i_heigthScreen);
+                        i_widthScreen, i_heigthScreen, fi_field);
                 lai_ais.add(aie);
             }// else if 
         }// for

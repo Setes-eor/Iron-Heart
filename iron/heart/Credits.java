@@ -4,6 +4,8 @@
  */
 package iron.heart;
 
+import iron.heart.BasicEntity;
+import iron.heart.GameCavs;
 import java.awt.Graphics;
 
 /**
