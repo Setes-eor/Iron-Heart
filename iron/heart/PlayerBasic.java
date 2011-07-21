@@ -124,8 +124,6 @@ public class PlayerBasic {
                  for(int i = 0; i < lah_headquaters.size(); i++){
                         if(lah_headquaters.get(i).getPersID() == buildid){
                             lah_headquaters.get(i).addSondetoBuild(i_unitPersID, energy);
-                            as_sondes.add(lah_headquaters.get(i).bornSonde());
-                            ah_headquater = null;
                         }// if
                     }// for
             }// if
@@ -185,6 +183,10 @@ public class PlayerBasic {
         }// for
         for(int i = 0; i < lah_headquaters.size(); i++){
             lah_headquaters.get(i).Draw(g);
+            if(lah_headquaters.get(i).isTimeToBorn()){
+                as_sondes.add(lah_headquaters.get(i).bornSonde());
+                            ah_headquater = null;
+            }// if
         }// for
         for(int i = 0; i < lu_units.size(); i++){
             lu_units.get(i).Draw(g);
@@ -192,6 +194,10 @@ public class PlayerBasic {
         for(int i = 0; i < as_sondes.size(); i++){
             as_sondes.get(i).Draw(g);
         }// for
+        
+        // nur zum test hier
+        //
+        
     }// Draw
     
     // set the horizontal move of all builds and units

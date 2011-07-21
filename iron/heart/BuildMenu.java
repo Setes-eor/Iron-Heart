@@ -5,7 +5,10 @@
 package iron.heart;
 
 import iron.heart.Player;
+import java.awt.Graphics;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  *
@@ -20,6 +23,8 @@ public class BuildMenu extends Menu {
     Player pl_player;
     HashMap<String, String> hm_buildart;
     String s_buildingid;
+    List<BasicEntity> lbe_buttonpicsBuildings;
+    List<BasicEntity> lbe_buttonpicsMainUnits;
     
     // constructor
     //
@@ -93,6 +98,20 @@ public class BuildMenu extends Menu {
     //
     public String getBuildID(){return s_buildingid;}
     
+    // add a button pic
+    //
+    public void addButtonpicsBuilds(String ref, int x, int y){
+        BasicEntity buttonpic = new BasicEntity(ref,x,y);
+        lbe_buttonpicsBuildings.add(buttonpic);
+    }// add Buttonpic 
+    
+    // add a button pic
+    //
+    public void addButtonpicsUnits(String ref, int x, int y){
+        BasicEntity buttonpic = new BasicEntity(ref,x,y);
+        lbe_buttonpicsMainUnits.add(buttonpic);
+    }// add Buttonpic 
+    
     // init the Buttons of the StartMenu
     //
     @Override
@@ -100,6 +119,7 @@ public class BuildMenu extends Menu {
         int x = this.getXPos() + 8;
         int y1 = this.getYPos() + 8;
         String button = "buttons/buildbutton";
+        String buttonpis = "buttons/buttonpic/";
         String textp = "texts/";
         addButton(s_datapath + button + s_typ, "", x, y1, 0);
         int buttonheight = lb_buttons.get(0).sp_sprite.getHeight();
@@ -112,5 +132,31 @@ public class BuildMenu extends Menu {
         addButton(s_datapath + button + s_typ, "", x, y1 + 2 * buttonheight + 10, 6);
         addButton(s_datapath + button + s_typ, "", x + buttonwidth + 5, y1 + 2 * buttonheight + 10, 7);
         addButton(s_datapath + button + s_typ, "", x + 2 * buttonwidth + 10, y1 + 2 * buttonheight + 10, 8);
+        
+        lbe_buttonpicsBuildings = new ArrayList<BasicEntity>();
+        lbe_buttonpicsMainUnits = new ArrayList<BasicEntity>();
+        
+        addButtonpicsBuilds(s_datapath + buttonpis + "main" + s_typ, x + 10, y1 + 10);
+        addButtonpicsUnits(s_datapath + buttonpis + "sonde" + s_typ, x + 10, y1 + 10);
     }// initButtons
+    
+    // draw
+    //
+    @Override
+    public void Draw(Graphics g){
+        if(b_visible){
+             sp_sprite.Draw(g,(int) d_xPos,(int) d_yPos);   
+        drawButtons(g);
+            if (hm_buildart.get("builds") == "active") {
+                for (int i = 0; i < lbe_buttonpicsBuildings.size(); i++) {
+                    lbe_buttonpicsBuildings.get(i).Draw(g);
+                }
+            }// if
+            if (hm_buildart.get("main") == "active") {
+                for (int i = 0; i < lbe_buttonpicsMainUnits.size(); i++) {
+                    lbe_buttonpicsMainUnits.get(i).Draw(g);
+                }
+            }// if
+        }// if
+    }// Draw
 }// BuildMenu
