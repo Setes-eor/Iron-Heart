@@ -59,6 +59,12 @@ public class Field {
         fe_field[y][x] = fieldelement;
     }// initFieldElement
     
+    
+    // get the x and y from the first terrain field
+    //
+    public int getXFirstField(){return lbe_terrain.get(0).getXPos();}
+    public int getYFirstField(){return lbe_terrain.get(0).getYPos();}
+    
     // init the terrain sprites
     //
     public void initTerrain(String datapath, String typ){
@@ -173,7 +179,7 @@ public class Field {
                 fe_field[(y / 64) + 2][(x / 64) + 1].setBuild(build);
                 fe_field[(y / 64) + 2][(x / 64) + 2].setBuild(build);  
         }// if
-        printTerrain();
+        //printTerrain();
     }// addBuild
     
     // calculate a point in the raster of the field

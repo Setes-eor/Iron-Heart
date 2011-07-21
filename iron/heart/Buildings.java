@@ -14,8 +14,9 @@ public class Buildings extends BuildUnitBase{
     
     // constructor
     //
-    public Buildings(String ref, int x, int y, float energy){
-        super(ref,x,y,energy);
+    public Buildings(String ref, int x, int y, int startX, int startY, String plID, 
+            int persID, float energy){
+        super(ref,x,y,startX,startY, plID, persID, energy);
     }// constructor
 
     @Override

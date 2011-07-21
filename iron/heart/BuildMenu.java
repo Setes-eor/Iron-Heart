@@ -75,7 +75,9 @@ public class BuildMenu extends Menu {
                             , x, y);
                     pl_player.b_buildactive = true;
                     s_buildingid = "main";
-                    
+                }// if
+                if(hm_buildart.get("main") == "active"){
+                   pl_player.addUnit("sonde", pl_player.ah_headquater.getPersID());
                 }// if
             }// if
 

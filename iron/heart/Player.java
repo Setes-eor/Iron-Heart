@@ -18,6 +18,8 @@ public class Player extends PlayerBasic{
     BuildMenu bm_buildmenu;
     BasicEntity be_curser;
     public boolean b_buildactive;
+    public boolean b_mainactive;
+    
     
     
     // default-constructor
@@ -39,6 +41,7 @@ public class Player extends PlayerBasic{
         bm_buildmenu = new BuildMenu("backgrounds/buildmenu", mainpath ,
                 typ,i_screenWidth - 267 - 5, 10 + 267, s_speziesID, this);
         b_buildactive = false;
+        b_mainactive = false;
         fi_field = field;
     }// constructor
     
@@ -70,33 +73,32 @@ public class Player extends PlayerBasic{
     // do somthing by mouseclick
     //
     public void mouseClicked(int mouseX, int mouseY, String button){
-        if(button == "left"){
+        if(button.equals("left")){
             // add a build
             if(b_buildactive){
+                String buildinfo = hm_abuildings.get(bm_buildmenu.getBuildID());
+                String buildid = bm_buildmenu.getBuildID();
+                String buildref = be_curser.getRef();
+                int xPos = be_curser.getXPos();
+                int yPos = be_curser.getYPos();
                 
-                String[] buildinfos = hm_abuildings.get(bm_buildmenu.getBuildID()).split(";");
-                String[] resources = buildinfos[0].split(",");
-                String[] sres1 = resources[0].split("=");
-                String[] sres2 = resources[1].split("=");
-                int res1 = Integer.parseInt(sres1[1]);
-                int res2 = Integer.parseInt(sres2[1]);
-                int pop = 0;
-                String raster = buildinfos[1];
-                int energy = Integer.parseInt(buildinfos[2]);
+                addBuild(buildinfo, buildref, buildid, xPos, yPos);
+            }// if  
+            else if(b_mainactive){
                 
-                if(r_resources.enaughResources(res1, res2, pop) && 
-                        fi_field.isfieldFree(be_curser.getXPos(), be_curser.getYPos(), bm_buildmenu.getBuildID(), raster)){
-                    r_resources.payCosts(res1, res2, pop);
-                    fi_field.addBuild(be_curser.getXPos(), be_curser.getYPos(), bm_buildmenu.getBuildID(), raster);
-                    Buildings build = new Buildings(be_curser.getRef(), be_curser.getXPos(),
-                            be_curser.getYPos(), energy);
-                    lb_buildings.add(build);
+            }// else if
+            else if(!b_buildactive && !b_mainactive){
+                int xPos = mouseX + ((-1) * fi_field.getXFirstField());
+                int yPos = mouseY + ((-1) * fi_field.getYFirstField());
+                String buildunit = search(xPos, yPos);
+                if(buildunit == "main"){
+                    bm_buildmenu.setBuildArtActive("main");
+                    bm_buildmenu.changeVisible();
                 }// if
-                
-            }// if   
+            }// else if
         }// if
         bm_buildmenu.mouseClicked(mouseX, mouseY);
-        if(button == "right"){
+        if(button.equals("right")){
             if(b_buildactive)
                 b_buildactive = false;
         }// if
